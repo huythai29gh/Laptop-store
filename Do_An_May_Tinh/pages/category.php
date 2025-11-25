@@ -15,28 +15,42 @@ $sql = "SELECT p.*, pi.image_url
 
 $result = $conn->query($sql);
 ?>
+<section class="products">
+    <h2>Danh mục sản phẩm</h2>
 
-<div class="product-grid">
-    <?php while ($row = $result->fetch_assoc()): ?>
-        <div class="product-card">
-            <img src="../<?= $row['image_url'] ?: 'assets/images/default.jpg' ?>">
+    <!-- Danh mục (nếu có) -->
+    <div class="category-list">
+        <?php
+        include '../config/db.php';
+        $cat_sql = "SELECT * FROM categories ORDER BY category_name ASC";
+        $cats = $conn->query($cat_sql);
+        if ($cats->num_rows > 0) {
+            while ($c = $cats->fetch_assoc()) {
+                echo '<a href="category.php?id=' . $c['category_id'] . '">' . $c['category_name'] . '</a>';
+            }
+        }
+        ?>
+    </div>
+    <div class="product-grid">
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="product-card">
+                <img src="../<?= $row['image_url'] ?: 'assets/images/default.jpg' ?>">
 
-            <h3><?= $row['name'] ?></h3>
+                <h3><?= $row['name'] ?></h3>
 
-            <p><?= number_format($row['price'], 0, ',', '.') ?> đ</p>
+                <p><?= number_format($row['price'], 0, ',', '.') ?> đ</p>
 
-            <div class="product-buttons">
-                <a href="product_detail.php?id=<?= $row['product_id'] ?>" class="btn btn-detail">
-                    Xem chi tiết
-                </a>
+                <div class="product-buttons">
+                    <a href="product_detail.php?id=<?= $row['product_id'] ?>" class="btn btn-detail">
+                        Xem chi tiết
+                    </a>
 
-                <a href="add_to_cart.php?id=<?= $row['product_id'] ?>" class="btn cart-btn">
-                    <i class="fas fa-cart-plus"></i>
-                </a>
+                    <a href="add_to_cart.php?id=<?= $row['product_id'] ?>" class="btn cart-btn">
+                        <i class="fas fa-cart-plus"></i>
+                    </a>
+                </div>
             </div>
-        </div>
-    <?php endwhile; ?>
-</div>
-<?php include '../includes/frooter.php'?>
-<script src="../assets/js/script.js"></script>
-
+        <?php endwhile; ?>
+    </div>
+    <?php include '../includes/frooter.php' ?>
+    <script src="../assets/js/script.js"></script>

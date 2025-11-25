@@ -12,8 +12,7 @@ include './includes/header.php';
     <img src="assets/image/banner.jpg" alt="Banner" style="width:100%; max-height:400px; object-fit:cover;">
   </section>
 
-  <
-  <!-- Sản phẩm nổi bật -->
+
   <section class="products">
     <h2>Danh mục sản phẩm</h2>
 
